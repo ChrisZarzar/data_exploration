@@ -1,7 +1,7 @@
 #Author: Christopher Zarzar
 #Created: 4-Dec-2018
 
-#NOTES: The purpose of this script is to investiate and apply different statistical test and distributions to the North Farm data
+#NOTES: The purpose of this script is to investiate using boxplots to the North Farm data
 
 panel06.data <- read.csv("C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/RWorkspace/datasets/AltitudesCombined06%_MicaSense.csv", header = TRUE)
 panel22.data <- read.csv("C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/RWorkspace/datasets/AltitudesCombined22%_MicaSense.csv", header = TRUE)
@@ -9,7 +9,7 @@ panel44.data <- read.csv("C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/RWo
 
 #Create graphic output
 pdf(file = "C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/data_exploration/MicaSense_NF_DataExplore_boxplot.pdf", width = 14, height = 14)
-par(mfrow=c(5,3),mar=c(1,1,1,1),oma=c(4,4,4,1))
+par(mfrow=c(5,3),mar=c(1,2,1,1),oma=c(4,4,4,1)) #(bottom, left, top, right)
 
 # The analysis for all altitudes and panel
 set.seed(7)
@@ -47,19 +47,19 @@ for (k in 1:length(band.col)){
     ##Create CI boxplots
 
     plotmat <- plotmat[,-1]
-    xrange <- c(seq(4,244,by=30)) #xrange <- c(30,(seq(100,800,by=100)))
+    xrange <- c(seq(4,244,by=30)) 
+    #xrange <- c(30,(seq(100,800,by=100)))
     barwidth=0.2
     plot.title <- paste(band[k],' Band ',tarp[j], '% Panel', sep='')
-    boxplot.matrix(plotmat)
-    #mtext(plot.title, side=3, cex=1.5, adj=0.5,0.5)
-    #mtext(letters[loopb], side=1, line=-1, adj=0, cex=1, col="grey40")
+    boxplot.matrix(plotmat, ylab="", xlab="", xaxt='n',cex.axis=1.5)
     #if (loopb %in% c(1,4,7,10,13)){
-     # axis(2, at=seq(0,0.15,by=0.05), cex.axis=2, las=2)
+    #  axis(2, at=seq(0,0.15,by=0.05), cex.axis=2, las=2)
     #} 
-    #if (loopb %in% c(13,14,15)){
-     # axis(1, at=1:9, labels=xrange, cex.axis=2, las=2) #change at= to 1:9 when doing 30 - 800 ft
-    #} else{
-    #}
+    if (loopb %in% c(13,14,15)){
+      axis(1, at=1:9, labels=xrange, cex.axis=1.5, las=2) #change at= to 1:9 when doing 30 - 800 ft
+    } else{
+    }
+    mtext(plot.title, side=3, cex=1, adj=0.5,0.5)
     box(col="grey60")
     #abline(h=plotmat[2,1], col="blue")
     #abline(h=plotmat[1,1],lty= 2, col="red")
@@ -68,6 +68,10 @@ for (k in 1:length(band.col)){
   }
   
 }
+#text(5,2, "DN", cex=1)
+#text(1,7, "Altitude (meters)", cex=1)
+#mtext("DN", side=2, cex=1.5, adj=0.5,0.5)
+#mtext("Altitude (meters)", side=1, cex=1.5, adj=0.5,0.5)
 ## COMMET THE BELOW BACK IN IF YOU WANT IT IN AN ENTIRE SINGLE FILE. 
 dev.off()
 closeAllConnections()

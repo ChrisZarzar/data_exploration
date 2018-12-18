@@ -1,7 +1,8 @@
 #Author: Christopher Zarzar
 #Created: 4-Dec-2018
 
-#NOTES: The purpose of this script is to investiate and apply different statistical test and distributions to the North Farm data
+#NOTES: The purpose of this script is to investiate and apply confidence intervals
+#       to the North Farm data without bootstrapping 
 
 panel06.data <- read.csv("C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/RWorkspace/datasets/AltitudesCombined06%_MicaSense.csv", header = TRUE)
 panel22.data <- read.csv("C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/RWorkspace/datasets/AltitudesCombined22%_MicaSense.csv", header = TRUE)
