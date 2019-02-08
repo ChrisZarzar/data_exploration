@@ -29,13 +29,29 @@ par(mfrow=c(1,3),mar=c(1,2,1,1),oma=c(4,4,4,1)) #(bottom, left, top, right)
 set.seed(7)
 loopa <- 0
 loopb <- 0
+looptest <- 0
+tarp <- c('06', '22', '44')
 band <- c('Blue', 'Green', 'Red', 'rEdge','NIR')
 band.col <- c(3:7)
-tarp <- c('06', '22', '44')
 alt <- c('30','100','200','300','400','500','600','700','800')
-for (k in 1:length(band.col)){
+for (j in 1:length(tarp)){
   loopa<-loopa+1
-  for(j in 1:length(tarp)){
+  for(k in 1:length(band.col)){
+    if(k==1){
+      lncol<-"blue1"
+    }
+    if(k==2){
+      lncol<-"darkgreen"
+    }
+    if(k==3){
+      lncol<-"red"
+    }
+    if(k==4){
+      lncol<-"violetred3"
+    }
+    if(k==5){
+      lncol<-"tan4"
+    }    
     loopb<-loopb+1
     plotmat <- numeric(3)
     for (i in 1:length(alt)){
@@ -67,35 +83,47 @@ for (k in 1:length(band.col)){
     #png(file =paste('C:/Users/zarzarc/OneDrive/Desktop/Research/scripts/RWorkspace/NorthFarm_output_2018/NorthFarmPlots_Canon_',band[k],'_',tarp[j], '.png', sep=''))
     plotmat <- plotmat[,-1]
     xrange <- c(seq(4,244,by=30)) #xrange <- c(30,(seq(100,800,by=100)))
-    #yrange <- c(seq(0,250,by=50),255)
     barwidth=0.2
-    plot.title <- paste(band[k],' Band ',tarp[j], '% Panel', sep='')
+    plot.title <- paste(tarp[j], '% Panel', sep='')
     n.plots <- length(plotmat[1,])
-    plot(plotmat[2,], axes=FALSE,ylim=c(0,255), xlab="",ylab="", cex.main=2)
+    if (looptest != loopa){
+    plot.new()
+    plot.window(xlim=c(1,length(xrange)),ylim=c(0,0.2), xlab="",ylab="", cex.main=1.2)
     mtext(plot.title, side=3, cex=1.5, adj=0.5,0.5)
+    #par(bg=NA) #make transparent background 
     #mtext(letters[loopb], side=1, line=-1, adj=0, cex=1, col="grey40")
-    if (loopb %in% c(1,4,7,10,13)){
+    lines(plotmat[2,], lty=k, lwd=2, col=lncol) #plot additional waveband median values
+    if (loopb %in% c(1,7,13)){
       axis(2, at=seq(0,0.2,by=0.05), cex.axis=2, las=2)
     } 
-    if (loopb %in% c(13,14,15)){
+    if (loopb %in% c(1,7,13)){
       axis(1, at=1:9, labels=xrange, cex.axis=2, las=2) #change at= to 1:9 when doing 30 - 800 ft
-    } else{
+    }
+    box(col="grey60")
+    if (looptest==0){
+      legend("topleft", legend=c('Blue', 'Green', 'Red', 'rEdge','NIR'), col=c("blue1","darkgreen","red","violetred3","tan4"),lty=c(1,2,3,4,5), box.lty=0, bg="transparent")
+    }
+    looptest<-loopa
+    }else{
+    mtext(plot.title, side=3, cex=1.5, adj=0.5,0.5)
+    #par(bg=NA) #make transparent background 
+    #mtext(letters[loopb], side=1, line=-1, adj=0, cex=1, col="grey40")
+    if (loopb %in% c(1)){
+      axis(2, at=seq(0,0.2,by=0.05), cex.axis=2, las=2)
+    } 
+    if (loopb %in% c(1,7,13)){
+      axis(1, at=1:9, labels=xrange, cex.axis=2, las=2) #change at= to 1:9 when doing 30 - 800 ft
     }
     box(col="grey60")
     for (i in 1:n.plots) {
-      lines(c(i-barwidth,i+barwidth),c(plotmat[1,i],plotmat[1,i]))
-      lines(c(i-barwidth,i+barwidth),c(plotmat[3,i],plotmat[3,i]))
-      lines(c(i,i),c(plotmat[1,i],plotmat[3,i]))
+      lines(plotmat[2,], lty=k,lwd=2, col=lncol) #plot additional waveband median values
       
     }
-    abline(h=plotmat[2,1], col="blue")
-    abline(h=plotmat[1,1],lty= 2, col="red")
-    abline(h=plotmat[3,1],lty= 2, col="red")
-    #dev.off()
+    }
   }
-  
 }
+
 ## COMMENT THE BELOW BACK IN IF YOU WANT IT IN AN ENTIRE SINGLE FILE. 
-dev.off()
-closeAllConnections()
+#dev.off()
+#closeAllConnections()
 #END
